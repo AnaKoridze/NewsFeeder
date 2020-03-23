@@ -10,9 +10,9 @@ func main()  {
 	r := gin.Default()
 
 	feed := data.NewRepo()
-	feed.Add(data.Newsfeed{"bingo", "bango"})
 
 	r.GET("/newsfeeds", endpoints.GetAllNews(feed))
+	r.POST("/newsfeed", endpoints.PostNewsFeed(feed))
 
 	_ = r.Run()
 }
