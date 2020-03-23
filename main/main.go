@@ -2,17 +2,18 @@ package main
 
 import (
 	"NewsFeeder/data"
-	"fmt"
+	"NewsFeeder/endpoints"
+	"github.com/gin-gonic/gin"
 )
 
 func main()  {
+	r := gin.Default()
+
 	feed := data.NewRepo()
+	feed.Add(data.Newsfeed{"bingo", "bango"})
 
-	feed.Add(data.Newsfeed{
-		"bingo",
-		"bango",
-	})
+	r.GET("/newsfeeds", endpoints.GetAllNews(feed))
 
-	fmt.Println(*feed)
+	_ = r.Run()
 }
 
