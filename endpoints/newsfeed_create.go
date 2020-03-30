@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"NewsFeeder/db"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -18,9 +17,9 @@ func PostNewsFeed() gin.HandlerFunc {
 		}
 
 		if err = db.DB.Create(&request).Error; err != nil {
-			fmt.Println("ERROR ", err)
+			context.JSON(http.StatusBadRequest, ResponseOk{err.Error()})
+		} else {
+			context.JSON(http.StatusOK, ResponseOk{"actualité bien ajouté"})
 		}
-
-		context.JSON(http.StatusOK, ResponseOk{"item bien ajouté"})
 	}
 }
