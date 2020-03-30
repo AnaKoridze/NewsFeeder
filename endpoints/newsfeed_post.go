@@ -1,28 +1,26 @@
 package endpoints
 
 import (
-	"NewsFeeder/data"
+	"NewsFeeder/db"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-type postNewsFeedRequest struct {
-	Title string `json:"title"`
-	Post string `json:"post"`
-}
-
-func PostNewsFeed(feed *data.Repo) gin.HandlerFunc {
+func PostNewsFeed() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		request := data.Newsfeed{}
-		err := context.Bind(&request)
+		request := db.NewsFeed{}
+		err := context.BindJSON(&request)
 
-		if (err != nil) {
-			context.Status(http.StatusNotAcceptable)
+		if err != nil {
+			context.Status(http.StatusInternalServerError)
 			return
 		}
 
-		feed.Add(request)
+		if err = db.DB.Create(&request).Error; err != nil {
+			fmt.Println("ERROR ", err)
+		}
 
-		context.Status(http.StatusOK)
+		context.JSON(http.StatusOK, ResponseOk{"item bien ajouté"})
 	}
 }

@@ -1,13 +1,13 @@
 package endpoints
 
 import (
-	"NewsFeeder/data"
+	"NewsFeeder/db"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func GetAllNews(feed *data.Repo) gin.HandlerFunc {
+func GetAllNews() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		context.JSON(http.StatusOK, feed.GetAllNews())
+		context.JSON(http.StatusOK, db.DB.Find(&db.NewsFeeds))
 	}
 }
