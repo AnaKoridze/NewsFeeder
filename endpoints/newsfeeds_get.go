@@ -1,7 +1,7 @@
 package endpoints
 
 import (
-	"NewsFeeder/db"
+	"github.com/AnaKoridze/NewsFeeder/db"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

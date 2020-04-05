@@ -1,9 +1,9 @@
 package main
 
 import (
-	"NewsFeeder/db"
-	"NewsFeeder/endpoints"
 	"fmt"
+	"github.com/AnaKoridze/NewsFeeder/db"
+	"github.com/AnaKoridze/NewsFeeder/endpoints"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
