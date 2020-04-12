@@ -17,9 +17,9 @@ func PostNewsFeed() gin.HandlerFunc {
 		}
 
 		if err = models.DB.Create(&request).Error; err != nil {
-			context.JSON(http.StatusBadRequest, create.CreateNewsFeedResponse{0})
+			context.JSON(http.StatusBadRequest, models.CreateNewsFeedResponse{0})
 		} else {
-			context.JSON(http.StatusOK, create.CreateNewsFeedResponse{1})
+			context.JSON(http.StatusOK, models.CreateNewsFeedResponse{1})
 		}
 	}
 }
