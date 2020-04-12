@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/AnaKoridze/NewsFeeder/handlers"
 	"github.com/AnaKoridze/NewsFeeder/services"
 	"github.com/gin-gonic/gin"
 )
@@ -8,8 +9,7 @@ import (
 func InitializeRouter(services *services.Services) *gin.Engine {
 
 	// Set the default gin router
-	r := gin.New()
-	r.Use(gin.Recovery())
+	r := gin.Default()
 
 	// Initialize Routes
 	initializeRoutes(r, services)
@@ -21,5 +21,8 @@ func InitializeRouter(services *services.Services) *gin.Engine {
 
 func initializeRoutes(r *gin.Engine, services *services.Services) {
 
+	r.GET("/newsfeeds", handlers.GetAllNews(services))
+	r.POST("/newsfeed", handlers.PostNewsFeed(services))
 
+	_ = r.Run()
 }

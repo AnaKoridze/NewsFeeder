@@ -30,13 +30,12 @@ func initNewsFeedService(config config.AppConfig) (*NewsFeedService, error) {
 	}
 	println("connected!")
 
-	defer db.Close()
 	db.AutoMigrate(&models.NewsFeed{})
 
 	return &NewsFeedService{db}, nil
 }
 
-func (feedService NewsFeedService) getAll() (*models.GetNewsFeedsResponse, error) {
+func (feedService NewsFeedService) GetAllFeeds() (*models.GetNewsFeedsResponse, error) {
 	d := feedService.db.Find(&models.NewsFeeds)
 	if d.Error != nil {
 		return nil, d.Error
@@ -49,9 +48,15 @@ func (feedService NewsFeedService) getAll() (*models.GetNewsFeedsResponse, error
 	return &response, nil
 }
 
-func (feedService NewsFeedService) createFeed(request models.CreateNewsFeedRequest) (*models.CreateNewsFeedResponse, error) {
+func (feedService NewsFeedService) CreateFeed(request models.CreateNewsFeedRequest) (*models.CreateNewsFeedResponse, error) {
 	row := new(models.NewsFeed)
-	d := feedService.db.Create(&request).Scan(&row)
+
+	feed := models.NewsFeed{}
+	feed.Title = request.Title
+	feed.Post = request.Post
+	feed.Author = request.Author
+
+	d := feedService.db.Create(&feed).Scan(&row)
 
 	if d.Error != nil {
 		return nil, d.Error

@@ -2,24 +2,43 @@ package handlers
 
 import (
 	"github.com/AnaKoridze/NewsFeeder/models"
+	"github.com/AnaKoridze/NewsFeeder/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
-func PostNewsFeed() gin.HandlerFunc {
+func PostNewsFeed(services *services.Services) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		request := models.NewsFeed{}
-		err := context.BindJSON(&request)
+		request := models.CreateNewsFeedRequest{}
 
-		if err != nil {
-			context.Status(http.StatusInternalServerError)
+		// validate json
+		if err := context.ShouldBindJSON(&request); err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{
+				"error":  "json decoding : " + err.Error(),
+				"status": http.StatusBadRequest,
+			})
 			return
 		}
 
-		if err = models.DB.Create(&request).Error; err != nil {
-			context.JSON(http.StatusBadRequest, models.CreateNewsFeedResponse{0})
-		} else {
-			context.JSON(http.StatusOK, models.CreateNewsFeedResponse{1})
+		// check empty strings
+		if len(strings.TrimSpace(request.Title)) == 0 {
+			request.Title = ""
 		}
+
+		if len(strings.TrimSpace(request.Post)) == 0 {
+			request.Post = ""
+		}
+
+		response, err := services.NewsFeedService.CreateFeed(request)
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"status": http.StatusInternalServerError,
+				"error":  err.Error(),
+			})
+			return
+		}
+
+		context.JSON(http.StatusOK, response)
 	}
 }

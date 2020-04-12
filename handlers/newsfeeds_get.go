@@ -1,13 +1,22 @@
 package handlers
 
 import (
-	"github.com/AnaKoridze/NewsFeeder/models"
+	"github.com/AnaKoridze/NewsFeeder/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func GetAllNews() gin.HandlerFunc {
+func GetAllNews(services *services.Services) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		context.JSON(http.StatusOK, models.DB.Find(&models.NewsFeeds))
+		response, err := services.NewsFeedService.GetAllFeeds()
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"status": http.StatusInternalServerError,
+				"error":  err.Error(),
+			})
+			return
+		}
+
+		context.JSON(http.StatusOK, response)
 	}
 }
