@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 	"github.com/AnaKoridze/NewsFeeder/config"
-	"github.com/AnaKoridze/NewsFeeder/db"
-	"github.com/AnaKoridze/NewsFeeder/endpoints"
+	"github.com/AnaKoridze/NewsFeeder/handlers"
+	"github.com/AnaKoridze/NewsFeeder/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 )
 
-func main()  {
+func main() {
 
 	conf := config.LoadConfig()
 
@@ -24,19 +24,18 @@ func main()  {
 
 	// open connection
 	var err error
-	db.DB, err = gorm.Open("postgres", connection)
+	models.DB, err = gorm.Open("postgres", connection)
 
 	if err != nil {
 		fmt.Println("ERROR ", err)
 	}
-	defer db.DB.Close()
-	db.DB.AutoMigrate(&db.NewsFeed{})
+	defer models.DB.Close()
+	models.DB.AutoMigrate(&models.NewsFeed{})
 
 	r := gin.Default()
 
-	r.GET("/newsfeeds", endpoints.GetAllNews())
-	r.POST("/newsfeed", endpoints.PostNewsFeed())
+	r.GET("/newsfeeds", handlers.GetAllNews())
+	r.POST("/newsfeed", handlers.PostNewsFeed())
 
 	_ = r.Run()
 }
-

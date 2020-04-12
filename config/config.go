@@ -1,12 +1,11 @@
 package config
 
 import (
-	"strings"
 	"github.com/spf13/viper"
+	"strings"
 )
 
 type AppConfig struct {
-
 	// global
 	Port int
 
@@ -32,7 +31,6 @@ func LoadConfig() AppConfig {
 	viper.SetDefault("db.user", "user")
 	viper.SetDefault("db.pwd", "pwd")
 	viper.SetDefault("db.name", "name")
-
 
 	// load configuration
 	cfg := AppConfig{}
