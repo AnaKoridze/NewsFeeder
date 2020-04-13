@@ -41,7 +41,3 @@ func (app *App) setup() {
 	app.Services = s
 
 }
-
-func (app *App) Run() {
-
-}
