@@ -21,8 +21,12 @@ func InitializeRouter(services *services.Services) *gin.Engine {
 
 func initializeRoutes(r *gin.Engine, services *services.Services) {
 
+	r.GET("/health", handlers.GetHealth)
+
 	r.GET("/newsfeeds", handlers.GetAllNews(services))
 	r.POST("/newsfeed", handlers.PostNewsFeed(services))
+
+	r.NoRoute(handlers.NoRoute)
 
 	_ = r.Run()
 }
