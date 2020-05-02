@@ -3,7 +3,7 @@ package services
 import "github.com/AnaKoridze/NewsFeeder/config"
 
 type Services struct {
-	NewsFeedService *NewsFeedService
+	NewsFeedService NewsFeedRepository
 }
 
 func InitServices(config config.AppConfig) *Services {
