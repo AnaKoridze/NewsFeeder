@@ -1,19 +1,13 @@
-version: '3.5'
+version: '3.3'
 
 services:
   analytics:
-    hostname: cvaden-analytics
+    hostname: newsfeeder
     restart: unless-stopped
     build:
       context: ./
       dockerfile: Dockerfile-dev
     volumes:
       - ./:/app
-      - ~/.config:/root/.config
     ports:
-      - "8084:8084"
-    dns:
-      - 8.8.8.8
-networks:
-  default:
-    name: cvaden2
+      - "5001:80"
