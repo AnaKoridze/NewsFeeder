@@ -1,4 +1,4 @@
-Feature: Test Resume Contact endpoint
+Feature: Test Fetch newsfeeds endpoint
 
   Scenario: Successful Get Newsfeeds action
     Given a running api

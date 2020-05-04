@@ -1,4 +1,4 @@
-Feature: Test Recruiter Login endpoint
+Feature: Test Add Newsfeed Endpoint
 
   Scenario: Successful Create Newsfeed action
     Given a running api
